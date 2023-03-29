@@ -14,11 +14,13 @@ class CharactersViewModel : ViewModel() {
     private val _characters = MutableLiveData<ArrayList<Characters>>()
     val characters:LiveData<ArrayList<Characters>> = _characters
 
+
     private fun fetchAllCharacters(){
         viewModelScope.launch {
                 val response = PotterApi.retrofitService.getAllCharacters()
             if (response.isSuccessful){
                 _characters.value = response.body()
+
             }
             else {
                 throw Exception("Error : ${response.errorBody()}")
@@ -27,6 +29,7 @@ class CharactersViewModel : ViewModel() {
 
         }
     }
+
     init {
         fetchAllCharacters()
     }

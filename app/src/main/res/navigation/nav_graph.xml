@@ -22,10 +22,28 @@
         tools:layout="@layout/fragment_details" >
         <action
             android:id="@+id/action_details_to_home2"
-            app:destination="@id/homePage" />
+            app:destination="@id/homePage"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/homePage"
+            />
         <argument
-            android:name="characterId"
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="species"
+            app:argType="string" />
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <argument
+            android:name="house"
+            app:argType="string" />
+        <argument
+            android:name="dob"
             app:argType="string"
-             />
+            app:nullable="true" />
+        <argument
+            android:name="imagePath"
+            app:argType="string" />
     </fragment>
 </navigation>
