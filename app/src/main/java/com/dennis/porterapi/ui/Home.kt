@@ -39,6 +39,8 @@ class Home : Fragment() {
             }
         }
 
+        onFabClick()
+
 
     }
 
@@ -58,6 +60,12 @@ class Home : Fragment() {
             imagePath
         )
         findNavController().navigate(action)
+    }
+
+    private fun onFabClick(){
+        binding?.fabSearch?.setOnClickListener {
+            findNavController().navigate(HomeDirections.actionHomePageToSearchFragment())
+        }
     }
 
     override fun onDestroyView() {

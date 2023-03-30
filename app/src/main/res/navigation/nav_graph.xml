@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_home2_to_details"
             app:destination="@id/details" />
+        <action
+            android:id="@+id/action_homePage_to_searchFragment"
+            app:destination="@id/searchFragment" />
 
 
     </fragment>
@@ -45,5 +48,16 @@
         <argument
             android:name="imagePath"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.dennis.porterapi.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homePage"
+            app:destination="@id/homePage"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/homePage"/>
     </fragment>
 </navigation>

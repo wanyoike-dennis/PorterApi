@@ -15,4 +15,6 @@
     <string name="gryf">Gryffindor</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="date">31march1980</string>
+    <string name="search_fab">search_fab</string>
+    <string name="textview">TextView</string>
 </resources>
