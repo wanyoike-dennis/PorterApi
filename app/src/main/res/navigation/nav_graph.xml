@@ -44,7 +44,6 @@
         <argument
             android:name="gender"
             app:argType="string" />
-
         <argument
             android:name="dob"
             app:argType="string"

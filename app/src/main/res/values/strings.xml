@@ -28,4 +28,6 @@
     <string name="text_view">text view</string>
     <string name="loading_data">loading data</string>
     <string name="search_fab">search fab</string>
+    <string name="alias">Alias</string>
+    <string name="house">House</string>
 </resources>
