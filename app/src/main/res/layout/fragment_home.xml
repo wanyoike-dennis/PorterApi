@@ -38,7 +38,7 @@
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:src="@drawable/search_icon"
-        android:tint="@color/white"
+        android:backgroundTint="@color/colorButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/search_fab" />
