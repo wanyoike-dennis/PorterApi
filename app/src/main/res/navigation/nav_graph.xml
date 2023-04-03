@@ -86,5 +86,8 @@
             app:destination="@id/homePage"
             app:popUpToInclusive="true"
             app:popUpTo="@id/homePage"/>
+        <action
+            android:id="@+id/action_searchFragment_to_details"
+            app:destination="@id/details" />
     </fragment>
 </navigation>

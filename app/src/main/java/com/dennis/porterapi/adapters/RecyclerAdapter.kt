@@ -12,7 +12,7 @@ import com.dennis.porterapi.R
 import com.dennis.porterapi.data.Characters
 import java.util.*
 
-class RecyclerAdapter : RecyclerView.Adapter<MyViewHolder>() , Filterable {
+class RecyclerAdapter(private val onClick: (Characters) -> Unit) : RecyclerView.Adapter<MyViewHolder>() , Filterable {
     private var characters:List<Characters> = emptyList()
     private var filteredCharacters:List<Characters> = emptyList()
 
@@ -26,7 +26,7 @@ class RecyclerAdapter : RecyclerView.Adapter<MyViewHolder>() , Filterable {
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
-        return MyViewHolder(view)
+        return MyViewHolder(view , onClick)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -60,6 +60,7 @@ class RecyclerAdapter : RecyclerView.Adapter<MyViewHolder>() , Filterable {
             }
 
             @SuppressLint("NotifyDataSetChanged")
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredCharacters = results?.values as List<Characters>
                 notifyDataSetChanged()
@@ -71,12 +72,23 @@ class RecyclerAdapter : RecyclerView.Adapter<MyViewHolder>() , Filterable {
 
 }
 
-class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-private val nameTextView : TextView = itemView.findViewById(R.id.txt_name)
+class MyViewHolder(itemView: View,val onClick: (Characters) -> Unit)
+    : RecyclerView.ViewHolder(itemView) {
+    private val nameTextView : TextView = itemView.findViewById(R.id.txt_name)
     private val houseTextView :TextView = itemView.findViewById(R.id.text_house)
+    private var currentCharacter: Characters? = null
 
     fun bind(character:Characters){
+        currentCharacter = character
         nameTextView.text = character.name
         houseTextView.text = character.house
+    }
+
+    init {
+        itemView.setOnClickListener {
+            currentCharacter?.let {
+                onClick(it)
+            }
+        }
     }
 }

@@ -28,17 +28,19 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
         private val characterName: TextView = itemView.findViewById(R.id.txt_character_name)
         private var currentCharacter: Characters? = null
 
+
+
+        fun bind(character: Characters) {
+            currentCharacter = character
+            characterName.text = character.name
+
+        }
         init {
             itemView.setOnClickListener {
                 currentCharacter?.let {
                     onClick(it)
                 }
             }
-        }
-
-        fun bind(character: Characters) {
-            currentCharacter = character
-            characterName.text = character.name
         }
     }
 

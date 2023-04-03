@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.dennis.porterapi.adapters.RecyclerAdapter
+import com.dennis.porterapi.data.Characters
 import com.dennis.porterapi.databinding.FragmentSearchBinding
 import com.dennis.porterapi.viewmodel.CharactersViewModel
 
@@ -41,7 +43,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun loadListComponents(){
-        val adapter= RecyclerAdapter()
+        val adapter= RecyclerAdapter{ character -> adapterOnClick(character)}
         binding?.recyclerView?.adapter= adapter
 
         binding?.searchView?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
@@ -56,10 +58,39 @@ class SearchFragment : Fragment() {
             }
 
         })
-        viewModel.charactersInHouse.observe(this.viewLifecycleOwner,{
-            characters ->
+        viewModel.charactersInHouse.observe(this.viewLifecycleOwner) { characters ->
             adapter.setCharacters(characters)
-        })
+        }
     }
+     private fun adapterOnClick(character:Characters){
+         val name = character.name
+         val species = character.species
+         val gender = character.gender
+         val house = character.house
+         val alias = character.alias
+         val hairColor = character.hairColour
+         val eyeColor = character.eyeColour
+         val patronus = character.patronus   ?: "info not available"
+         val actor= character.actor
+         val ancestry= character.ancestry
+         val dateOfBirth= character.dateOfBirth ?: "info not available"
+         val imagePath = character.image
+
+         val action = SearchFragmentDirections.actionSearchFragmentToDetails(
+             name,
+             alias.toString(),
+             house,
+             species,
+             gender,
+             dateOfBirth,
+             ancestry,
+             patronus,
+             hairColor,
+             eyeColor,
+             actor,
+             imagePath
+         )
+         findNavController().navigate(action)
+     }
 
 }

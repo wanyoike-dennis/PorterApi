@@ -11,10 +11,10 @@ data class Characters(
     val house:String,
     @SerializedName("dateOfBirth")val dateOfBirth:String?,
     val ancestry:String,
-    val hairColour:String,
+    @SerializedName("hairColour")val hairColour:String,
     val eyeColour:String,
     val wand:Wand,
-    val patronus:String?,
+    @SerializedName("patronus")val patronus:String?,
     val actor:String,
     val image:String
 )

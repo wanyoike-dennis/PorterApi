@@ -47,6 +47,7 @@ class Details : Fragment() {
             houseTextView.text = args.house
             hairColorTextView.text=args.hairColor
             eyeColorTextView.text=args.eyeColor
+            patronusTextView.text= args.patronus
             ancestryTextView.text=args.ancestry
             actorTextView.text=args.actor
             dateOfBirthTextView.text = args.dob

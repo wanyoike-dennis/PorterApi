@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.dennis.porterapi.ui
 
 import android.content.Context
@@ -9,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.dennis.porterapi.NetworkChangeReceiver
@@ -76,14 +77,14 @@ class Home : Fragment() {
         val action = HomeDirections.actionHome2ToDetails(
             name,
             alias.toString(),
+            house,
             species,
             gender,
-            house,
             dateOfBirth,
             ancestry,
+            patronus,
             hairColor,
             eyeColor,
-            patronus,
             actor,
             imagePath
         )
@@ -96,7 +97,7 @@ class Home : Fragment() {
         }
     }
 
-     fun isNetworkAvailable():Boolean{
+     private fun isNetworkAvailable():Boolean{
         val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
