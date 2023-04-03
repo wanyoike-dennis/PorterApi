@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:padding="8dp"
+    >
 
     <TextView
-        android:id="@+id/txt_name_house"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/textview" />
-</LinearLayout>
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTextBlack"
+        android:text="@string/textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_house"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorTextBlack"
+        app:layout_constraintTop_toTopOf="@+id/txt_name"
+        tools:text="house" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 package com.dennis.porterapi.network
 
-import com.dennis.porterapi.commons.BASE_URL
+import com.dennis.porterapi.utils.BASE_URL
 import com.dennis.porterapi.data.Characters
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -15,7 +15,6 @@ private val retrofit = Retrofit.Builder()
 interface PotterService{
     @GET("characters")
     suspend fun getAllCharacters():Response<ArrayList<Characters>>
-
 }
 
 object PotterApi{

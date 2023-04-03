@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import com.dennis.porterapi.adapters.MyListAdapter
+import com.dennis.porterapi.adapters.RecyclerAdapter
 import com.dennis.porterapi.databinding.FragmentSearchBinding
 import com.dennis.porterapi.viewmodel.CharactersViewModel
 
@@ -31,7 +31,9 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         loadListComponents()
+
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -39,33 +41,25 @@ class SearchFragment : Fragment() {
     }
 
     private fun loadListComponents(){
-        val dataList = viewModel.characters
-
-        val adapter = dataList.value?.let { MyListAdapter(it) }
-        binding?.listView?.adapter = adapter
-
-        viewModel.characters.observe(this.viewLifecycleOwner){
-        adapter?.notifyDataSetChanged()
-        }
-
-
+        val adapter= RecyclerAdapter()
+        binding?.recyclerView?.adapter= adapter
 
         binding?.searchView?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding?.searchView?.clearFocus()
-           /*     if (characters.contains(query)){
-                    adapter.filter.filter(query)
-                }
-
-            */
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-           //     adapter.filter.filter(newText)
+               adapter.filter.filter(newText)
                 return false
             }
 
         })
+        viewModel.charactersInHouse.observe(this.viewLifecycleOwner,{
+            characters ->
+            adapter.setCharacters(characters)
+        })
     }
+
 }

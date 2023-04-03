@@ -40,18 +40,23 @@ class Details : Fragment() {
 
     private fun loadData() {
         binding?.apply {
-            txtCharacterName.text = args.name
-            txtSpecies.text = args.species
-            txtGender.text = args.gender
-            txtHouse.text = args.house
-            txtDob.text = args.dob
+            nameTextView.text = args.name
+            alternateName.text= args.alias
+            speciesTextView.text = args.species
+            genderTextView.text = args.gender
+            houseTextView.text = args.house
+            hairColorTextView.text=args.hairColor
+            eyeColorTextView.text=args.eyeColor
+            ancestryTextView.text=args.ancestry
+            actorTextView.text=args.actor
+            dateOfBirthTextView.text = args.dob
             val imageUrl = args.imagePath
             Glide.with(requireActivity())
                 .load(imageUrl)
                 .centerCrop()
                 .placeholder(R.drawable.loading_img)
                 .error(R.drawable.ic_connection_error)
-                .into(imgCharacter)
+                .into(imageView)
         }
     }
 

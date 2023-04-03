@@ -25,7 +25,7 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
 
     class CharacterViewHolder(itemView: View, val onClick: (Characters) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
-        private val characterName: TextView = itemView.findViewById(R.id.txt_name)
+        private val characterName: TextView = itemView.findViewById(R.id.txt_character_name)
         private var currentCharacter: Characters? = null
 
         init {

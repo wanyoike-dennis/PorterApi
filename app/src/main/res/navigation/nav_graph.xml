@@ -33,21 +33,49 @@
             android:name="name"
             app:argType="string" />
         <argument
-            android:name="species"
-            app:argType="string" />
-        <argument
-            android:name="gender"
+            android:name="alias"
             app:argType="string" />
         <argument
             android:name="house"
             app:argType="string" />
         <argument
+            android:name="species"
+            app:argType="string" />
+        <argument
+            android:name="gender"
+            app:argType="string" />
+
+        <argument
             android:name="dob"
             app:argType="string"
             app:nullable="true" />
         <argument
+            android:name="ancestry"
+            app:argType="string" />
+        <argument
+            android:name="patronus"
+            app:argType="string"
+            app:nullable="true"
+            />
+        <argument
+            android:name="hairColor"
+            app:argType="string"/>
+
+        <argument
+            android:name="eyeColor"
+            app:argType="string" />
+        <argument
+            android:name="actor"
+            app:argType="string" />
+
+        <argument
             android:name="imagePath"
             app:argType="string" />
+
+
+
+
+
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
