@@ -45,6 +45,14 @@ class Home : Fragment() {
         binding?.recyclerListCharacters?.adapter = adapter
 
 
+        viewModel.isLoading.observe(this.viewLifecycleOwner){
+            isLoading ->
+            binding?.progressBar?.visibility =
+                if (isLoading)
+                    View.VISIBLE
+                else
+                    View.GONE
+        }
         if (isNetworkAvailable()) {
             viewModel.characters.observe(this.viewLifecycleOwner) { characters ->
                 characters.let {

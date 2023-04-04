@@ -3,10 +3,12 @@ package com.dennis.porterapi.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dennis.porterapi.R
 import com.dennis.porterapi.data.Characters
 
@@ -26,6 +28,7 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
     class CharacterViewHolder(itemView: View, val onClick: (Characters) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val characterName: TextView = itemView.findViewById(R.id.txt_character_name)
+        private val profileImage:ImageView = itemView.findViewById(R.id.profile_image)
         private var currentCharacter: Characters? = null
 
 
@@ -33,6 +36,12 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
         fun bind(character: Characters) {
             currentCharacter = character
             characterName.text = character.name
+
+            Glide.with(itemView)
+                .load(character.image)
+                .placeholder(R.drawable.loading_animation)
+                .error(R.drawable.ic_baseline_person_24)
+                .into(profileImage)
 
         }
         init {

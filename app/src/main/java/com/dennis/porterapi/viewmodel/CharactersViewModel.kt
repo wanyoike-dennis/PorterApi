@@ -16,13 +16,17 @@ class CharactersViewModel : ViewModel() {
     private val _charactersInHouse = MutableLiveData<ArrayList<Characters>>()
     val charactersInHouse : LiveData<ArrayList<Characters>> =  _charactersInHouse
 
+     val isLoading = MutableLiveData<Boolean>()
+
     private fun fetchAllCharacters(){
         viewModelScope.launch {
-                val response = PotterApi.retrofitService.getAllCharacters()
-
+            isLoading.value = true
+            val response = PotterApi.retrofitService.getAllCharacters()
             if (response.isSuccessful){
                 _characters.value = response.body()
                 _charactersInHouse.value = response.body()
+                isLoading.value = false
+
 
             }
             else {
