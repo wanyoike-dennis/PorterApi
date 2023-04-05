@@ -17,7 +17,7 @@ class SearchFragment : Fragment() {
 
     private val viewModel : CharactersViewModel by activityViewModels()
     private var binding: FragmentSearchBinding?= null
-  //  private  lateinit var characters : ArrayList<Characters>
+    private  val adapter= RecyclerAdapter{ character -> adapterOnClick(character)}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,36 +33,33 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        loadListComponents()
-
+        setupRecycler()
     }
     override fun onDestroyView() {
         super.onDestroyView()
         binding=null
     }
 
-    private fun loadListComponents(){
-        val adapter= RecyclerAdapter{ character -> adapterOnClick(character)}
+    private fun setupRecycler(){
+        setUpSearchView()
         binding?.recyclerView?.adapter= adapter
+        viewModel.charactersInHouse.observe(this.viewLifecycleOwner) { characters ->
+            adapter.setCharacters(characters)
+        }
+    }
 
+    private fun setUpSearchView(){
         binding?.searchView?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding?.searchView?.clearFocus()
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
-               adapter.filter.filter(newText)
+                adapter.filter.filter(newText)
                 return false
-            }
-
-        })
-        viewModel.charactersInHouse.observe(this.viewLifecycleOwner) { characters ->
-            adapter.setCharacters(characters)
-        }
+            } })
     }
-     private fun adapterOnClick(character:Characters){
+    private fun adapterOnClick(character:Characters){
          val name = character.name
          val species = character.species
          val gender = character.gender

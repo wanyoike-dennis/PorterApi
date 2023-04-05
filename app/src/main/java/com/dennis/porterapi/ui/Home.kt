@@ -3,7 +3,6 @@
 package com.dennis.porterapi.ui
 
 import android.content.Context
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.dennis.porterapi.NetworkChangeReceiver
 import com.dennis.porterapi.adapters.CharactersAdapter
 import com.dennis.porterapi.data.Characters
 import com.dennis.porterapi.databinding.FragmentHomeBinding
@@ -21,8 +19,6 @@ import com.dennis.porterapi.viewmodel.CharactersViewModel
 
 class Home : Fragment() {
     private var binding: FragmentHomeBinding? = null
-    private lateinit var networkChangeReceiver: NetworkChangeReceiver
-    private lateinit var intentFilter : IntentFilter
     private val viewModel: CharactersViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -31,22 +27,19 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val fragmentBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        networkChangeReceiver = NetworkChangeReceiver()
-        intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-
         binding = fragmentBinding
         return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setUpRecycler()
+        onFabClick()
+    }
+    private fun setUpRecycler(){
         val adapter = CharactersAdapter { character -> adapterOnClick(character) }
         binding?.recyclerListCharacters?.adapter = adapter
-
-
-        viewModel.isLoading.observe(this.viewLifecycleOwner){
-            isLoading ->
+        viewModel.isLoading.observe(this.viewLifecycleOwner) { isLoading ->
             binding?.progressBar?.visibility =
                 if (isLoading)
                     View.VISIBLE
@@ -59,14 +52,9 @@ class Home : Fragment() {
                     adapter.submitList(it as MutableList<Characters>)
                 }
             }
+        } else {
+            Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_LONG).show()
         }
-            else{
-                Toast.makeText(requireContext(),"No internet connection",Toast.LENGTH_LONG).show()
-            }
-
-        onFabClick()
-
-
     }
 
     private fun adapterOnClick(character: Characters) {
@@ -77,10 +65,10 @@ class Home : Fragment() {
         val alias = character.alias
         val hairColor = character.hairColour
         val eyeColor = character.eyeColour
-        val patronus = character.patronus   ?: "info not available"
-        val actor= character.actor
-        val ancestry= character.ancestry
-        val dateOfBirth= character.dateOfBirth ?: "info not available"
+        val patronus = character.patronus ?: "info not available"
+        val actor = character.actor
+        val ancestry = character.ancestry
+        val dateOfBirth = character.dateOfBirth ?: "info not available"
         val imagePath = character.image
         val action = HomeDirections.actionHome2ToDetails(
             name,
@@ -99,14 +87,15 @@ class Home : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun onFabClick(){
+    private fun onFabClick() {
         binding?.fabSearch?.setOnClickListener {
             findNavController().navigate(HomeDirections.actionHomePageToSearchFragment())
         }
     }
 
-     private fun isNetworkAvailable():Boolean{
-        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }
@@ -115,16 +104,4 @@ class Home : Fragment() {
         super.onDestroyView()
         binding = null
     }
-
-    override fun onResume() {
-        super.onResume()
-        requireActivity().registerReceiver(networkChangeReceiver,intentFilter)
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        requireActivity().unregisterReceiver(networkChangeReceiver)
-    }
-
 }

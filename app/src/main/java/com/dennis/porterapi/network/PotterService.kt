@@ -13,6 +13,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface PotterService{
+    // get all characters
     @GET("characters")
     suspend fun getAllCharacters():Response<ArrayList<Characters>>
 }

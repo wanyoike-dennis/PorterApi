@@ -13,7 +13,6 @@ data class Characters(
     val ancestry:String,
     @SerializedName("hairColour")val hairColour:String,
     val eyeColour:String,
-    val wand:Wand,
     @SerializedName("patronus")val patronus:String?,
     val actor:String,
     val image:String

@@ -28,9 +28,8 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
     class CharacterViewHolder(itemView: View, val onClick: (Characters) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val characterName: TextView = itemView.findViewById(R.id.txt_character_name)
-        private val profileImage:ImageView = itemView.findViewById(R.id.profile_image)
+        private val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
         private var currentCharacter: Characters? = null
-
 
 
         fun bind(character: Characters) {
@@ -44,6 +43,7 @@ class CharactersAdapter(private val onClick: (Characters) -> Unit) :
                 .into(profileImage)
 
         }
+
         init {
             itemView.setOnClickListener {
                 currentCharacter?.let {

@@ -12,21 +12,23 @@ import com.dennis.porterapi.R
 import com.dennis.porterapi.data.Characters
 import java.util.*
 
-class RecyclerAdapter(private val onClick: (Characters) -> Unit) : RecyclerView.Adapter<MyViewHolder>() , Filterable {
-    private var characters:List<Characters> = emptyList()
-    private var filteredCharacters:List<Characters> = emptyList()
+class RecyclerAdapter(private val onClick: (Characters) -> Unit) :
+    RecyclerView.Adapter<MyViewHolder>(), Filterable {
+    private var characters: List<Characters> = emptyList()
+    private var filteredCharacters: List<Characters> = emptyList()
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setCharacters(characters:List<Characters>){
+    fun setCharacters(characters: List<Characters>) {
         this.characters = characters
         this.filteredCharacters = characters
         notifyDataSetChanged()
 
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
-        return MyViewHolder(view , onClick)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        return MyViewHolder(view, onClick)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -39,18 +41,17 @@ class RecyclerAdapter(private val onClick: (Characters) -> Unit) : RecyclerView.
     }
 
     override fun getFilter(): Filter {
-        return object : Filter(){
+        return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val query = constraint.toString()
-                filteredCharacters = if (query.isEmpty()){
+                filteredCharacters = if (query.isEmpty()) {
                     characters
-                }
-                else {
+                } else {
                     val lowercaseQuery = query.lowercase(Locale.getDefault())
-                    characters.filter {
-                        character ->
+                    characters.filter { character ->
                         character.name.lowercase(Locale.getDefault()).contains(lowercaseQuery) ||
-                                character.house.lowercase(Locale.getDefault()).contains(lowercaseQuery)
+                                character.house.lowercase(Locale.getDefault())
+                                    .contains(lowercaseQuery)
                     }
 
                 }
@@ -72,13 +73,13 @@ class RecyclerAdapter(private val onClick: (Characters) -> Unit) : RecyclerView.
 
 }
 
-class MyViewHolder(itemView: View,val onClick: (Characters) -> Unit)
-    : RecyclerView.ViewHolder(itemView) {
-    private val nameTextView : TextView = itemView.findViewById(R.id.txt_name)
-    private val houseTextView :TextView = itemView.findViewById(R.id.text_house)
+class MyViewHolder(itemView: View, val onClick: (Characters) -> Unit) :
+    RecyclerView.ViewHolder(itemView) {
+    private val nameTextView: TextView = itemView.findViewById(R.id.txt_name)
+    private val houseTextView: TextView = itemView.findViewById(R.id.text_house)
     private var currentCharacter: Characters? = null
 
-    fun bind(character:Characters){
+    fun bind(character: Characters) {
         currentCharacter = character
         nameTextView.text = character.name
         houseTextView.text = character.house
