@@ -1,23 +1,26 @@
 package com.dennis.porterapi.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.dennis.porterapi.data.Characters
-import com.dennis.porterapi.network.PotterApi
+import com.dennis.porterapi.repository.CharactersRepository
 import kotlinx.coroutines.launch
 
 
-class CharactersViewModel : ViewModel() {
+class CharactersViewModel(private val charactersRepository :CharactersRepository) : ViewModel() {
 
 
-    private val _characters = MutableLiveData<ArrayList<Characters>>()
-    val characters: LiveData<ArrayList<Characters>> = _characters
+    private val _characters = MutableLiveData<List<Characters>>()
+    val characters: LiveData<List<Characters>> = _characters
 
 
     private val _charactersInHouse = MutableLiveData<ArrayList<Characters>>()
     val charactersInHouse: LiveData<ArrayList<Characters>> = _charactersInHouse
 
     val isLoading = MutableLiveData<Boolean>()
+
+
 
     /**
      * Gets  information from the Potter API Retrofit service and updates the
@@ -26,15 +29,22 @@ class CharactersViewModel : ViewModel() {
     private fun getAllCharacters() {
         viewModelScope.launch {
             isLoading.value = true
-            val response = PotterApi.retrofitService.getAllCharacters()
-            if (response.isSuccessful) {
-                _characters.value = response.body()
-                _charactersInHouse.value = response.body()
-                isLoading.value = false
-            } else {
-                throw Exception("Error : ${response.errorBody()}")
+            try {
+                val characters = charactersRepository.fetchAllCharacters()
+                _characters.postValue(characters)
+                _characters.postValue(characters)
+                isLoading.value= false
+            } catch (e:Exception){
+                Log.e(TAG,"could not load characters",e)
             }
+
+
         }
+
+
+    }
+    companion object{
+        private const val TAG = "viewModel"
     }
 
     /**
@@ -44,4 +54,13 @@ class CharactersViewModel : ViewModel() {
         getAllCharacters()
     }
 
+}
+class CharactersModelFactory(private val charactersRepository :CharactersRepository) : ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CharactersViewModel::class.java)){
+            @Suppress("UNCHECKED_CAST")
+            return CharactersViewModel(charactersRepository) as T
+        }
+        throw IllegalArgumentException("unknown viewModel class")
+    }
 }

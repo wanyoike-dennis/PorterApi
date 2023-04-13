@@ -15,11 +15,17 @@ import androidx.navigation.fragment.findNavController
 import com.dennis.porterapi.adapters.CharactersAdapter
 import com.dennis.porterapi.data.Characters
 import com.dennis.porterapi.databinding.FragmentHomeBinding
+import com.dennis.porterapi.network.PotterApi
+import com.dennis.porterapi.repository.CharactersRepository
+import com.dennis.porterapi.viewmodel.CharactersModelFactory
 import com.dennis.porterapi.viewmodel.CharactersViewModel
 
 class Home : Fragment() {
+    private val apiService = PotterApi
     private var binding: FragmentHomeBinding? = null
-    private val viewModel: CharactersViewModel by activityViewModels()
+    private val viewModel: CharactersViewModel by activityViewModels{
+        CharactersModelFactory(CharactersRepository(apiService))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
